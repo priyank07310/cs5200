@@ -1,75 +1,85 @@
 package edu.neu.cs5200.assign.orm.model;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import java.util.List;
+
+import javax.persistence.*;
+import javax.xml.bind.annotation.*;
 
 @Entity
+@NamedQueries(value = { @NamedQuery(
+		name = "findAllSites",
+		query = "select dir from Site dir") })
+@XmlRootElement
+@XmlAccessorType(value = XmlAccessType.FIELD)
 public class Site {
-	
 	@Id
-	private Integer sid;
-	private String tname;
-	private String latitude;
-	private String longitude;
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@XmlAttribute
+	private int id;
+	@XmlAttribute
+	private String name;
+	@XmlAttribute
+	private float latitude;
+	@XmlAttribute
+	private float longitude;
 	
-	
-	public Integer getSid() {
-		return sid;
+	@OneToMany(mappedBy="site", cascade=CascadeType.ALL, orphanRemoval=true)
+	@XmlElement(name="tower")
+	private List<Tower> towers;
+
+	public int getId() {
+		return id;
 	}
 
-
-	public void setSid(Integer sid) {
-		this.sid = sid;
+	public void setId(int id) {
+		this.id = id;
 	}
 
-
-	public String getTname() {
-		return tname;
+	public String getName() {
+		return name;
 	}
 
-
-	public void setTname(String tname) {
-		this.tname = tname;
+	public void setName(String name) {
+		this.name = name;
 	}
 
-
-	public String getLatitude() {
+	public float getLatitude() {
 		return latitude;
 	}
 
-
-	public void setLatitude(String latitude) {
+	public void setLatitude(float latitude) {
 		this.latitude = latitude;
 	}
 
-
-	public String getLongitude() {
+	public float getLongitude() {
 		return longitude;
 	}
 
-
-	public void setLongitude(String longitude) {
+	public void setLongitude(float longitude) {
 		this.longitude = longitude;
 	}
 
+	public List<Tower> getTowers() {
+		return towers;
+	}
 
-	
-	public Site(Integer sid, String tname, String latitude, String longitude) {
+	public void setTowers(List<Tower> towers) {
+		this.towers = towers;
+	}
+
+	public Site(int id, String name, float latitude, float longitude,
+			List<Tower> towers) {
 		super();
-		this.sid = sid;
-		this.tname = tname;
+		this.id = id;
+		this.name = name;
 		this.latitude = latitude;
 		this.longitude = longitude;
+		this.towers = towers;
 	}
-
 
 	public Site() {
 		super();
 	}
-	
-	
-	
-	
 	
 	
 }
