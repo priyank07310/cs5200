@@ -1,0 +1,28 @@
+package edu.neu.cs5200.assign.orm.dao;
+
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+import edu.neu.cs5200.assign.orm.model.Tower;
+
+public class TowerDAO {
+
+	EntityManagerFactory factory = Persistence.createEntityManagerFactory("Tower");
+	EntityManager em = factory.createEntityManager();
+
+	
+	// CRUD
+	
+	// CREATE TOWER
+	// READ TOWER BY ID
+	// READ ALL TOWERS
+	// UPDATE TOWERS
+	// DELETE TOWER
+	
+	TowerDAO dao = new TowerDAO();
+	
+	Tower tower= new Tower (null, "TMobile", 11, 4, 1);	
+	tower = dao.createTower(tower);
+	System.out.println(tower);
+}
+

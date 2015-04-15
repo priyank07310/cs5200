@@ -1,0 +1,13 @@
+package edu.neu.cs5200.assign.orm.model;
+
+import javax.persistence.Entity;
+
+@Entity
+public class Tower{
+
+	private int tid;
+	private String tname;
+	private int height;
+	private int sides;
+	private int id;
+}

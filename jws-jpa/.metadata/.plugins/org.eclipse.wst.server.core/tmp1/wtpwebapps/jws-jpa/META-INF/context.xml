@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context>
+<Resource
+name = "jdbc/jws-jpaDB"
+url = "jdbc:mysql://localhost:3306/jws-jpa"
+auth= "Container"
+type= "javax.sql.Datasource"
+maxActive = "50"
+maxIdle = "30"
+maxwait = "10000"
+username ="root"
+password ="root"
+driverClassName = "com.sql.jdbc.Driver">
+</Resource>
+</Context>

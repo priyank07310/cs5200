@@ -1,0 +1,78 @@
+package edu.neu.cs5200.assign.ds.model;
+
+public class Equipment {
+
+	private int eqId;
+	private String eqName;
+	private String brand;
+	private String desc;
+	private float price;
+	private int id;
+	
+	
+	
+	public int getEqId() {
+		return eqId;
+	}
+	
+	public void setEqId(int eqId) {
+		this.eqId = eqId;
+	}
+	
+	public String getEqName() {
+		return eqName;
+	}
+	
+	public void setEqName(String eqName) {
+		this.eqName = eqName;
+	}
+	
+	public String getBrand() {
+		return brand;
+	}
+	
+	public void setBrand(String brand) {
+		this.brand = brand;
+	}
+	
+	public String getDesc() {
+		return desc;
+	}
+	
+	public void setDesc(String desc) {
+		this.desc = desc;
+	}
+	
+	public float getPrice() {
+		return price;
+	}
+	
+	public void setPrice(float price) {
+		this.price = price;
+	}
+	
+	public int getId() {
+		return id;
+	}
+	
+	public void setId(int id) {
+		this.id = id;
+	}
+	
+	public Equipment(int eqId, String eqName, String brand, String desc,
+			float price, int id) {
+		super();
+		this.eqId = eqId;
+		this.eqName = eqName;
+		this.brand = brand;
+		this.desc = desc;
+		this.price = price;
+		this.id = id;
+	}
+	
+	public Equipment() {
+		super();
+	}
+	
+	
+}
