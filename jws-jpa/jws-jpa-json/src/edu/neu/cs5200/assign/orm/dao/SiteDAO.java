@@ -15,7 +15,7 @@ import javax.ws.rs.core.MediaType;
 public class SiteDAO {
 
 	
-	EntityManagerFactory factory = Persistence.createEntityManagerFactory("jws-jpa");
+	EntityManagerFactory factory = Persistence.createEntityManagerFactory("jws-jpa-json");
 	EntityManager em = null; 
 	
 	

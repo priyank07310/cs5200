@@ -15,6 +15,7 @@ public class Site {
 	private String name;
 	private float latitude;
 	private float longitude;
+	
 	@OneToMany(mappedBy="site",cascade=CascadeType.ALL, orphanRemoval=true)
 	private List<Tower> Towers;
 	public int getId() {
