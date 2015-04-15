@@ -1,7 +1,11 @@
 package edu.neu.cs5200.assign.orm.model;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Site {
@@ -11,6 +15,8 @@ public class Site {
 	private String name;
 	private float latitude;
 	private float longitude;
+	@OneToMany(mappedBy="site",cascade=CascadeType.ALL, orphanRemoval=true)
+	private List<Tower> Towers;
 	public int getId() {
 		return id;
 	}
@@ -35,19 +41,26 @@ public class Site {
 	public void setLongitude(float longitude) {
 		this.longitude = longitude;
 	}
-	public Site() {
-		super();
-		// TODO Auto-generated constructor stub
+	public List<Tower> getTowers() {
+		return Towers;
 	}
-	public Site(int id, String name, float latitude, float longitude) {
+	public void setTowers(List<Tower> towers) {
+		Towers = towers;
+	}
+	public Site(int id, String name, float latitude, float longitude,
+			List<Tower> towers) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.latitude = latitude;
 		this.longitude = longitude;
+		Towers = towers;
+	}
+	public Site() {
+		super();
+		// TODO Auto-generated constructor stub
 	}
 	
-	
-	
+		
 	
 }

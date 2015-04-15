@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<servelet>
+<servelet-name>
+Jersey REST Service
+</servelet-name>
+<servelet-class>
+com.sun.jersey.spi.container.servelet.ServeletContainer
+</servelet-class>
+<init-param>
+<param-name>
+jersey.config.server.provider.packages
+</param-name>
+<param-values>
+edu.neu.cs5200.assign.orm.model
+</param-values>
+</init-param>
+</servelet>
+<servelet-mapping>
+<servelet-name>
+Jersey REST Service
+</servelet-name>
+<url-pattern>
+/rest/*
+</url-pattern>
+</servelet-mapping>
