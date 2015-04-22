@@ -24,9 +24,7 @@ public class Equipment {
 	private String description;
 	@XmlAttribute
 	private int price;
-	@XmlAttribute
-	private int towerid;
-	
+		
 	@ManyToOne
 	@JoinColumn(name="towerId")
 	@XmlTransient
@@ -72,13 +70,6 @@ public class Equipment {
 		this.price = price;
 	}
 
-	public int getTowerid() {
-		return towerid;
-	}
-
-	public void setTowerid(int towerid) {
-		this.towerid = towerid;
-	}
 
 	public Tower getTower() {
 		return tower;

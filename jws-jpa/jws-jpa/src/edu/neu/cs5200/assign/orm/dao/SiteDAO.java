@@ -22,164 +22,89 @@ import javax.xml.transform.stream.*;
 import javax.persistence.*;
 import javax.print.attribute.standard.Media;
 
+
 @Path("/site")
 public class SiteDAO {
-	
-	EntityManagerFactory factory = Persistence.createEntityManagerFactory("XSLT_JPA");
-	EntityManager em = null;
-	
-	@GET
-	@Path("/{id}")
-	@Produces(MediaType.APPLICATION_JSON)
-	public Site findSite(@PathParam("id") int siteId) {
-		Site site = null;
-		
-		em = factory.createEntityManager();
-		em.getTransaction().begin();
-		
-		site = em.find(Site.class, siteId);
-		
-		em.getTransaction().commit();
-		em.close();
-		
-		return site;
-	}
-	
-	@DELETE
-	@Path("/{id}")
-	@Produces(MediaType.APPLICATION_JSON)
-	public List<Site> removeSite(@PathParam("id") int siteId) {
-		List<Site> sites = new ArrayList<Site>();
+	EntityManagerFactory factory = Persistence.createEntityManagerFactory("jws-jpa");
+	EntityManager em = factory.createEntityManager();
 
-		Site site = null;
-		
-		em = factory.createEntityManager();
-		em.getTransaction().begin();
-		
-		site = em.find(Site.class, siteId);
-		em.remove(site);
-		
-		Query query = em.createNamedQuery("findAllSites");
-		sites = query.getResultList();
-		
-		em.getTransaction().commit();
-		em.close();
-		
-		return sites;
-	}
-	
-	@GET
-	@Path("/")
-	@Produces(MediaType.APPLICATION_JSON)
-	public List<Site> findAllSites() {
-		List<Site> sites = new ArrayList<Site>();
-		
-		em = factory.createEntityManager();
-		em.getTransaction().begin();
-		
-		Query query = em.createNamedQuery("findAllSites");
-		sites = query.getResultList();
-		
-		em.getTransaction().commit();
-		em.close();
-
-		return sites;
-	}
 	
 	@POST
 	@Path("/")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
+	//createSite
 	public List<Site> createSite(Site site) {
-		List<Site> sites = new ArrayList<Site>();
-
-		em = factory.createEntityManager();
 		em.getTransaction().begin();
-
 		em.persist(site);
-		Query query = em.createNamedQuery("findAllSites");
-		sites = query.getResultList();
-		
 		em.getTransaction().commit();
-		em.close();
+		List<Site> sites=findAllSites();
+		sites.add(site);
 		return sites;
 	}
 	
+	//findsiteByID
+	@GET
+	@Path("/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Site findSite(@PathParam("id")Integer id)
+	{
+		return em.find(Site.class,id);
+	}
+	
+	
+	@GET	
+	@Path("/")
+	@Produces(MediaType.APPLICATION_JSON)
+	//findAllSites
+	public List<Site> findAllSites()
+	{
+		Query query=em.createQuery("select site from Site site ");
+		return (List<Site>)query.getResultList();
+	}
+	
+	//updateSite
 	@PUT
 	@Path("/{id}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<Site> updateSite(@PathParam("id") int siteId, Site site) {
-		List<Site> sites = new ArrayList<Site>();
-
-		em = factory.createEntityManager();
-		em.getTransaction().begin();
-
-		site.setId(siteId);
-		em.merge(site);
-		
-		Query query = em.createNamedQuery("findAllSites");
-		sites = query.getResultList();
-		
-		em.getTransaction().commit();
-		em.close();
-		return sites;
-	}
-	
-	public void exportSitesToXmlFile(Sites sites, String xmlFileName) {
-		File xmlFile = new File(xmlFileName);
-		try {
-			JAXBContext jaxb = JAXBContext.newInstance(Sites.class);
-			Marshaller marshaller = jaxb.createMarshaller();
-			marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-			marshaller.marshal(sites, xmlFile);
-		} catch (JAXBException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-	
-	public void convertXmlFileToOutputFile(
-			String sitesXmlFileName,
-			String outputFileName,
-			String xsltFileName)
+	public List<Site> updateSite(@PathParam("id")Integer id,Site site)
 	{
-		File inputXmlFile = new File(sitesXmlFileName);
-		File outputXmlFile = new File(outputFileName);
-		File xsltFile = new File(xsltFileName);
-		
-		StreamSource source = new StreamSource(inputXmlFile);
-		StreamSource xslt    = new StreamSource(xsltFile);
-		StreamResult output = new StreamResult(outputXmlFile);
-		
-		TransformerFactory factory = TransformerFactory.newInstance();
-		try {
-			Transformer transformer = factory.newTransformer(xslt);
-			transformer.transform(source, output);
-		} catch (TransformerConfigurationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (TransformerException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		site=findSite(id);
+		site.setName("hello");
+		em.getTransaction().begin();
+		em.merge(site);
+		em.getTransaction().commit();
+		return findAllSites();
 	}
 	
-	public static void main(String[] args) {
-		SiteDAO dao = new SiteDAO();
-		dao.removeSite(9);
-		Site site = dao.findSite(1);
-		
-		List<Site> sites = dao.findAllSites();
-		for(Site dir:sites) {
-
-		}
-		
-		Sites theSites = new Sites();
-		theSites.setSites(sites);
-		
-		dao.exportSitesToXmlFile(theSites, "xml/sites.xml");
-		
-;
+	
+	@DELETE
+	@Path("/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	
+	public List<Site> removeSite(@PathParam("id") int i) {
+		Site site=findSite(i);
+		em.getTransaction().begin();
+		em.remove(site);
+		em.getTransaction().commit();
+		return findAllSites();
 	}
+	public static void main(String[] args){
+		
+		SiteDAO dao = new SiteDAO();
+		
+		
+		List<Site> updatedsites = dao.findAllSites();
+			for(Site updatedsite: updatedsites)
+			{
+				System.out.println(updatedsite.getName());
+	 	    }
+			
+	}
+	
+
+
+	
+	
 }
